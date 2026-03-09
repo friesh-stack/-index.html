@@ -930,6 +930,33 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.06);pa
 
 <script>
 
+// ── API KEY (sicher im Browser gespeichert) ──
+function _vaGetApiKey() {
+  let key = localStorage.getItem('bl_api_key');
+  if (!key) {
+    key = prompt(
+      '🔑 Blue Lagune — KI-Assistent\n\n' +
+      'Bitte geben Sie Ihren Anthropic API Key ein.\n' +
+      'Er wird nur in diesem Browser gespeichert.\n\n' +
+      'Key beginnt mit: sk-ant-...',
+      ''
+    );
+    if (key && key.startsWith('sk-ant-')) {
+      localStorage.setItem('bl_api_key', key.trim());
+    } else if (key) {
+      alert('❌ Ungültiger Key. Bitte einen gültigen Anthropic API Key eingeben.');
+      return '';
+    }
+  }
+  return key || '';
+}
+
+function _vaResetApiKey() {
+  localStorage.removeItem('bl_api_key');
+  alert('✓ API Key gelöscht. Beim nächsten Start wird er neu abgefragt.');
+}
+
+
 // ── BLUE LAGUNE — main.js ──
 const TEL = '00393774128760';
 let currentLang = 'de';
@@ -2261,7 +2288,7 @@ async function _vaAskAI(question) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': 'sk-ant-api03-HIER_IHREN_KEY_EINFUEGEN',
+        'x-api-key': _vaGetApiKey(),
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-request-header': 'allow'
       },
