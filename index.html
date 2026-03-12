@@ -671,23 +671,13 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.06);pa
         <div class="fp-desc" id="fp3-desc">Premium-Objekte ab 120 m². Drei Etagen, Dachterrasse, optionaler kleiner Garten. 360°-Lagunenpanorama.</div>
       </div>
     </div>
-    <div class="kubicasa-box">
-      <div>
+    <div class="kubicasa-box" style="display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;max-width:480px;">
         <div class="section-label" style="color:var(--mint)" id="kubi-sec">Grundriss-Erfassung</div>
-        <div class="kubi-title" id="kubi-title">📐 KubiCasa Integration</div>
-        <p class="kubi-sub" id="kubi-sub">Wir nutzen <strong style="color:var(--aqua)" id="kubi-desc-b">KubiCasa</strong> für die professionelle Grundrissvermessung aller Objekte. Präzise, maßstabsgetreue 2D-Grundrisse und 3D-Modelle — in Minuten per Smartphone erfasst, notartauglich exportiert.</p>
-        <div class="kubi-steps">
-          <div class="kubi-step"><span class="kubi-step-num">📱</span><div class="kubi-step-txt">Smartphone-Scan vor Ort</div></div>
-          <div class="kubi-step"><span class="kubi-step-num">🗂️</span><div class="kubi-step-txt" id="kubi-s1" id="kubi-s2">2D-Grundriss in Minuten</div></div>
-          <div class="kubi-step"><span class="kubi-step-num">🧱</span><div class="kubi-step-txt" id="kubi-s3" >3D-Modell & Raumhöhen</div></div>
-          <div class="kubi-step"><span class="kubi-step-num">📄</span><div class="kubi-step-txt" id="kubi-s4" >PDF-Export für Notar</div></div>
-        </div>
-        <a href="https://kubicasa.com" target="_blank" class="kubi-cta" id="kubi-link">🔗 Mehr über KubiCasa</a>
-      </div>
-      <div style="text-align:center">
-        <div class="kubi-logo">KubiCasa</div>
-        <div style="font-size:.68rem;color:rgba(255,255,255,.4);letter-spacing:.1em;margin-top:.3rem;text-transform:uppercase">Partner</div>
-        <div style="margin-top:1rem;background:rgba(6,214,160,.1);border:1px solid rgba(6,214,160,.22);border-radius:.6rem;padding:.55rem .9rem;font-size:.72rem;color:var(--mint);text-align:center" id="kubi-badge">✓ Alle Objekte vermessen</div>
+        <p class="kubi-sub" id="kubi-sub" style="margin-bottom:1.6rem;">Präzise Grundrisse aller Objekte — per Sprache, Foto und KI-Analyse direkt vor Ort erfasst.</p>
+        <a href="grundriss-voice.html" target="_blank" class="kubi-cta" id="kubi-link" style="display:inline-flex;align-items:center;gap:.6rem;font-size:1rem;padding:.9rem 2rem;border-radius:.7rem;text-decoration:none;">
+          📐 Grundrisse erfassen
+        </a>
       </div>
     </div>
   </div>
@@ -915,7 +905,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.06);pa
         <span id="modalBadge"></span>
       </div>
       <div class="modal-specs" id="modalSpecs"></div>
-      <div class="modal-kubi"><span style="font-size:1.5rem">📐</span><div class="modal-kubi-text" id="modalKubi">Grundriss via <strong>KubiCasa</strong> vermessen — 2D & 3D auf Anfrage, notartauglich.</div></div>
+      <div class="modal-kubi"><span style="font-size:1.5rem">📐</span><div class="modal-kubi-text" id="modalKubi">Grundriss-Erfassung per <strong>RaumScanner</strong> — KI-gestützt vor Ort.</div></div>
       <div class="modal-achtel-hint" id="modalAchtelHint"></div>
       <div class="modal-desc" id="modalDesc"></div>
       <div class="modal-actions">
@@ -1206,8 +1196,8 @@ function openModal(id) {
   document.getElementById('modalDesc').textContent = p.fullDesc || base.fullDesc;
   const kubi = document.getElementById('modalKubi');
   if (kubi) kubi.innerHTML = isIT
-    ? 'Planimetria con <strong>KubiCasa</strong> — 2D & 3D su richiesta.'
-    : 'Grundriss via <strong>KubiCasa</strong> — 2D & 3D-Pläne auf Anfrage.';
+    ? 'Rilievo planimetrico con <strong>RaumScanner</strong> — KI-assistito in loco.'
+    : 'Grundriss-Erfassung per <strong>RaumScanner</strong> — KI-gestützt vor Ort.';
   const waMsg = isIT
     ? 'Ciao Marco! Sono interessato/a a '+p.name+' ('+p.price+'). Fissiamo un sopralluogo?'
     : 'Hallo Marco! Ich interessiere mich für '+p.name+' ('+p.price+'). Können wir einen Besichtigungstermin vereinbaren?';
@@ -1522,12 +1512,9 @@ de: {
   'fp2-d':'Das klassische Burano-Haus. EG Wohnen & Küche, OG Schlafzimmer mit Kanalblick. Seitlicher Balkon möglich.',
   'fp3-t':'Dreistöckig · 100–120+ m²',
   'fp3-desc':'Premium-Objekte ab 120 m². Drei Etagen, Dachterrasse, optionaler kleiner Garten. 360°-Lagunenpanorama.',
-  'kubi-title':'📐 KubiCasa Integration',
-  'kubi-s1':'Smartphone-Scan vor Ort',
-  'kubi-s2':'2D-Grundriss in Minuten',
-  'kubi-s3':'3D-Modell & Raumhöhen',
-  'kubi-s4':'PDF-Export für Notar',
-  'kubi-cta-txt':'Mehr über KubiCasa',
+  'kubi-sec':'Grundriss-Erfassung',
+  'kubi-sub':'Präzise Grundrisse aller Objekte — per Sprache, Foto und KI-Analyse direkt vor Ort erfasst.',
+  'kubi-cta-txt':'📐 Grundrisse erfassen',
   'sec-lage':'Mikrolagen',
   'h2-lage2':'Kanal · Lagune · Garten',
   'lage1-h':'Kanallage — Fondamenta',
@@ -1597,7 +1584,7 @@ de: {
   'va-status-txt':'● Bereit',
   'va-welcome':'Willkommen! Klicken Sie 🔊 bei einem Objekt oder wählen Sie unten.',
   'va-intro-btn':'🎙️ Burano Einführung',
-  'modal-kubi-txt':'Grundriss via <strong>KubiCasa</strong> verfügbar',
+  'modal-kubi-txt':'Grundriss-Erfassung per <strong>RaumScanner</strong>',
   'calc-results-header':['⅛-Kaufpreis','Jahresgebühr','Ihr Anteil/Jahr','Netto-Rendite','Rentabilitätsindex'],
 },
 it: {
@@ -1652,12 +1639,9 @@ it: {
   'fp2-d':'La tipica casa di Burano. Piano terra soggiorno e cucina, piano superiore camera con vista canale. Possibile balcone laterale.',
   'fp3-t':'Tre piani · 100–120+ m²',
   'fp3-desc':'Immobili premium da 120 m². Tre piani, terrazza sul tetto, giardino opzionale. Panorama a 360° sulla laguna.',
-  'kubi-title':'📐 Integrazione KubiCasa',
-  'kubi-s1':'Scansione con smartphone in loco',
-  'kubi-s2':'Planimetria 2D in pochi minuti',
-  'kubi-s3':'Modello 3D e altezze dei locali',
-  'kubi-s4':'Export PDF per il notaio',
-  'kubi-cta-txt':'Scopri KubiCasa',
+  'kubi-sec':'Rilievo planimetrico',
+  'kubi-sub':'Planimetrie precise di tutti gli immobili — rilevate in loco con voce, foto e analisi KI.',
+  'kubi-cta-txt':'📐 Rileva planimetria',
   'sec-lage':'Microposizioni',
   'h2-lage2':'Canale · Laguna · Giardino',
   'lage1-h':'Sul canale — Fondamenta',
@@ -1727,7 +1711,7 @@ it: {
   'va-status-txt':'● Pronto',
   'va-welcome':'Benvenuti! Cliccate 🔊 su un immobile o scegliete qui sotto.',
   'va-intro-btn':'🎙️ Introduzione a Burano',
-  'modal-kubi-txt':'Planimetria disponibile via <strong>KubiCasa</strong>',
+  'modal-kubi-txt':'Rilievo planimetrico con <strong>RaumScanner</strong>',
 },
   en: {
   'nav-insel':'The Island',
@@ -1780,12 +1764,9 @@ it: {
   'fp2-d':'The classic Burano house. Ground floor living and kitchen, upper floor bedroom with canal view.',
   'fp3-t':'Three storeys \u00b7 100\u2013120+ m\u00b2',
   'fp3-desc':'Premium properties from 120 m\u00b2. Three floors, roof terrace, optional garden. 360\u00b0 lagoon panorama.',
-  'kubi-title':'\ud83d\udccf KubiCasa Integration',
-  'kubi-s1':'Smartphone scan on site',
-  'kubi-s2':'2D floor plan in minutes',
-  'kubi-s3':'3D model and room heights',
-  'kubi-s4':'PDF export for notary',
-  'kubi-cta-txt':'Discover KubiCasa',
+  'kubi-sec':'Floor Plan Capture',
+  'kubi-sub':'Precise floor plans of all properties — captured on-site by voice, photo and AI analysis.',
+  'kubi-cta-txt':'📐 Capture floor plans',
   'sec-lage':'Micro-locations',
   'h2-lage2':'Canal \u00b7 Lagoon \u00b7 Garden',
   'lage1-h':'Canal-side \u2014 Fondamenta',
@@ -1855,7 +1836,7 @@ it: {
   'va-status-txt':'\u25cf Ready',
   'va-welcome':'Welcome! Click \ud83d\udd0a on a property or choose below.',
   'va-intro-btn':'\ud83c\udfa4 Burano Introduction',
-  'modal-kubi-txt':'Floor plan available via <strong>KubiCasa</strong>',
+  'modal-kubi-txt':'Floor plan capture via <strong>RaumScanner</strong>',
 }
 };
 
