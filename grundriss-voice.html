@@ -683,9 +683,151 @@ canvas#fp-canvas {
   .main-layout { grid-template-columns: 1fr; }
   .right-panel { display: none; }
 }
+
+/* PIN SCREEN */
+#pin-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pin-box {
+  background: var(--paper);
+  border-radius: 4px;
+  padding: 40px 36px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.pin-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.pin-logo .accent { color: var(--accent); }
+
+.pin-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: -12px;
+  font-family: 'Space Mono', monospace;
+}
+
+.pin-dots {
+  display: flex;
+  gap: 14px;
+  margin: 4px 0;
+}
+.pin-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: transparent;
+  transition: all 0.15s;
+}
+.pin-dot.filled {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.pin-dot.error {
+  background: var(--accent);
+  border-color: var(--accent);
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.pin-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.pin-key {
+  background: var(--paper2);
+  border: 1.5px solid var(--border);
+  color: var(--ink);
+  padding: 16px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.1s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.pin-key:active { background: var(--ink); color: var(--paper); transform: scale(0.95); }
+.pin-key.del { font-size: 18px; color: var(--muted); }
+.pin-key.zero { grid-column: 2; }
+
+.pin-error-msg {
+  font-size: 11px;
+  color: var(--accent);
+  font-family: 'Space Mono', monospace;
+  min-height: 16px;
+  text-align: center;
+}
 </style>
 </head>
 <body class="room-colors">
+
+<!-- PIN SCREEN -->
+<div id="pin-screen">
+  <div class="pin-box">
+    <div class="pin-logo">Raum<span class="accent">Scanner</span> Pro</div>
+    <div class="pin-subtitle">ZUGANG NUR MIT PIN</div>
+
+    <div class="pin-dots">
+      <div class="pin-dot" id="pd0"></div>
+      <div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div>
+      <div class="pin-dot" id="pd3"></div>
+      <div class="pin-dot" id="pd4"></div>
+      <div class="pin-dot" id="pd5"></div>
+    </div>
+
+    <div class="pin-keypad">
+      <button class="pin-key" onclick="pinPress('1')">1</button>
+      <button class="pin-key" onclick="pinPress('2')">2</button>
+      <button class="pin-key" onclick="pinPress('3')">3</button>
+      <button class="pin-key" onclick="pinPress('4')">4</button>
+      <button class="pin-key" onclick="pinPress('5')">5</button>
+      <button class="pin-key" onclick="pinPress('6')">6</button>
+      <button class="pin-key" onclick="pinPress('7')">7</button>
+      <button class="pin-key" onclick="pinPress('8')">8</button>
+      <button class="pin-key" onclick="pinPress('9')">9</button>
+      <button class="pin-key del" onclick="pinDelete()">⌫</button>
+      <button class="pin-key zero" onclick="pinPress('0')">0</button>
+      <button class="pin-key del" onclick="pinClear()">✕</button>
+    </div>
+
+    <div class="pin-error-msg" id="pin-error"></div>
+  </div>
+</div>
 
 <header>
   <div class="logo">Raum<span class="accent">Scanner</span> Pro</div>
@@ -736,16 +878,23 @@ canvas#fp-canvas {
     <div class="photo-zone">
       <div class="zone-title">③ Fotos / Raumaufnahmen</div>
       <div class="photo-row">
-        <label class="photo-upload-btn" for="photo-file-input">
-          <span style="font-size:22px;">📷</span>
-          <span>Foto hinzufügen</span>
-        </label>
+        <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+          <label class="photo-upload-btn" for="photo-camera-input" style="background:var(--accent);border-color:var(--accent);color:white;">
+            <span style="font-size:22px;">📸</span>
+            <span>Kamera</span>
+          </label>
+          <label class="photo-upload-btn" for="photo-file-input">
+            <span style="font-size:18px;">🖼</span>
+            <span>Galerie</span>
+          </label>
+        </div>
         <div class="photo-thumbs" id="photo-thumbs"></div>
         <button class="analyze-btn" id="analyze-btn" onclick="analyzePhotos()" disabled>
           🔍 KI analysieren
         </button>
       </div>
-      <input type="file" id="photo-file-input" accept="image/*" multiple onchange="handlePhotoUpload(this)">
+      <input type="file" id="photo-camera-input" accept="image/*" capture="environment" onchange="handlePhotoUpload(this)" style="display:none;">
+      <input type="file" id="photo-file-input" accept="image/*" multiple onchange="handlePhotoUpload(this)" style="display:none;">
     </div>
 
     <!-- ROOMS LIST -->
@@ -797,7 +946,76 @@ canvas#fp-canvas {
 </div>
 
 <script>
-// ===================== STATE =====================
+// ===================== PIN =====================
+const CORRECT_PIN = '120648';
+let pinEntry = '';
+
+// Check if already unlocked this session
+if (sessionStorage.getItem('raumscanner_unlocked') === '1') {
+  document.getElementById('pin-screen').style.display = 'none';
+}
+
+function pinPress(digit) {
+  if (pinEntry.length >= 6) return;
+  pinEntry += digit;
+  updatePinDots();
+  if (pinEntry.length === 6) {
+    setTimeout(checkPin, 120);
+  }
+}
+
+function pinDelete() {
+  pinEntry = pinEntry.slice(0, -1);
+  updatePinDots();
+  document.getElementById('pin-error').textContent = '';
+}
+
+function pinClear() {
+  pinEntry = '';
+  updatePinDots();
+  document.getElementById('pin-error').textContent = '';
+}
+
+function updatePinDots() {
+  for (let i = 0; i < 6; i++) {
+    const dot = document.getElementById('pd' + i);
+    if (dot) {
+      dot.classList.toggle('filled', i < pinEntry.length);
+      dot.classList.remove('error');
+    }
+  }
+}
+
+function checkPin() {
+  if (pinEntry === CORRECT_PIN) {
+    sessionStorage.setItem('raumscanner_unlocked', '1');
+    const screen = document.getElementById('pin-screen');
+    screen.style.transition = 'opacity 0.4s';
+    screen.style.opacity = '0';
+    setTimeout(() => screen.style.display = 'none', 400);
+  } else {
+    for (let i = 0; i < 6; i++) {
+      const dot = document.getElementById('pd' + i);
+      if (dot) dot.classList.add('error');
+    }
+    document.getElementById('pin-error').textContent = 'Falscher PIN — nochmal versuchen';
+    setTimeout(() => {
+      pinEntry = '';
+      updatePinDots();
+    }, 800);
+  }
+}
+
+// Keyboard support for PIN
+document.addEventListener('keydown', e => {
+  const screen = document.getElementById('pin-screen');
+  if (screen && screen.style.display !== 'none' && screen.style.opacity !== '0') {
+    if (e.key >= '0' && e.key <= '9') pinPress(e.key);
+    else if (e.key === 'Backspace') pinDelete();
+    else if (e.key === 'Escape') pinClear();
+    return;
+  }
+});
 let rooms = [];
 let pendingPhotos = []; // {dataURL, file}
 let apiKey = localStorage.getItem('raumscanner_apikey') || '';
