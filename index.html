@@ -178,16 +178,28 @@ h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,5vw,3.2rem);fon
 .fp-svg{width:100%;height:100%}
 .fp-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;margin-bottom:.4rem}
 .fp-desc{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.6}
-.kubicasa-box{background:linear-gradient(135deg,rgba(0,180,216,.07),rgba(6,214,160,.05));border:1px solid rgba(0,180,216,.2);border-radius:1.2rem;padding:2rem;margin-top:2.5rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center}
+.kubicasa-box{background:linear-gradient(135deg,rgba(0,180,216,.07),rgba(6,214,160,.05));border:1px solid rgba(0,180,216,.2);border-radius:1.2rem;padding:2rem;margin-top:2.5rem}
 .kubi-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;margin-bottom:.4rem}
-.kubi-sub{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.65;max-width:460px}
+.kubi-sub{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.65;max-width:520px}
 .kubi-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:1.2rem}
 .kubi-step{background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.14);border-radius:.6rem;padding:.8rem;text-align:center}
 .kubi-step-num{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--aqua);display:block;margin-bottom:.25rem}
 .kubi-step-txt{font-size:.7rem;color:rgba(255,255,255,.5);line-height:1.4}
-.kubi-cta{display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,var(--aqua),var(--lagoon));color:#fff;padding:.6rem 1.3rem;border-radius:2rem;text-decoration:none;font-size:.8rem;margin-top:1rem;transition:opacity .2s}
-.kubi-cta:hover{opacity:.85}
-.kubi-logo{background:linear-gradient(135deg,var(--aqua),var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;line-height:1}
+.rs-btns{display:flex;gap:.9rem;margin-top:1.3rem;flex-wrap:wrap}
+.rs-btn-cam{display:inline-flex;align-items:center;gap:.45rem;background:linear-gradient(135deg,#e03030,#c0392b);color:#fff;border:none;padding:.65rem 1.4rem;border-radius:2rem;font-size:.82rem;font-weight:600;cursor:pointer;transition:opacity .2s,transform .1s;letter-spacing:.02em}
+.rs-btn-cam:hover{opacity:.85;transform:scale(1.03)}
+.rs-btn-file{display:inline-flex;align-items:center;gap:.45rem;background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.22);padding:.65rem 1.4rem;border-radius:2rem;font-size:.82rem;cursor:pointer;transition:opacity .2s,background .2s;letter-spacing:.02em}
+.rs-btn-file:hover{background:rgba(255,255,255,.17);opacity:1}
+.rs-result{margin-top:1.2rem;background:rgba(6,214,160,.06);border:1px solid rgba(6,214,160,.22);border-radius:.8rem;padding:1rem 1.2rem;font-size:.8rem;color:rgba(255,255,255,.8);line-height:1.65;display:none}
+.rs-result.show{display:block}
+.rs-result-head{color:var(--mint);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem;font-weight:600}
+.rs-spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
+.rs-logo{background:linear-gradient(135deg,#e03030,var(--aqua));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;line-height:1}
+.rs-btn-camera{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;border:none;padding:.65rem 1.4rem;border-radius:2rem;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.05em;transition:opacity .2s,transform .15s;display:inline-flex;align-items:center;gap:.45rem}
+.rs-btn-camera:hover{opacity:.88;transform:scale(1.03)}
+.rs-btn-camera:active{transform:scale(.97)}
+.rs-btn-file{background:rgba(255,255,255,.13);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.2);padding:.65rem 1.4rem;border-radius:2rem;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.05em;transition:opacity .2s,background .2s}
+.rs-btn-file:hover{background:rgba(255,255,255,.2)}
 
 /* ── LAGE ── */
 #lage{background:#011830}
@@ -320,6 +332,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.06);pa
 .va-bubble-typing{background:rgba(0,180,216,.1);border:1px solid rgba(0,180,216,.15);color:rgba(255,255,255,.4);align-self:flex-start;font-style:italic}
 .va-chip{background:rgba(0,180,216,.12);border:1px solid rgba(0,180,216,.25);color:rgba(255,255,255,.65);padding:.25rem .55rem;border-radius:1rem;font-size:.7rem;cursor:pointer;font-family:Outfit,sans-serif;white-space:nowrap;transition:all .2s}
 .va-chip:hover,.va-chip:active{background:rgba(0,180,216,.28);color:#fff}
+@keyframes spin{to{transform:rotate(360deg)}}
 @keyframes mic-pulse{0%,100%{box-shadow:0 4px 24px rgba(220,50,50,.4)}50%{box-shadow:0 4px 32px rgba(220,50,50,.8),0 0 0 8px rgba(220,50,50,.15)}}
 #vaMicBtn[data-listening="1"]{animation:mic-pulse 1.2s ease-in-out infinite}
 .va-chip:hover{background:rgba(0,180,216,.25);color:#fff}
@@ -672,22 +685,43 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.06);pa
       </div>
     </div>
     <div class="kubicasa-box">
-      <div>
+      <div style="width:100%">
         <div class="section-label" style="color:var(--mint)" id="kubi-sec">Grundriss-Erfassung</div>
-        <div class="kubi-title" id="kubi-title">📐 KubiCasa Integration</div>
-        <p class="kubi-sub" id="kubi-sub">Wir nutzen <strong style="color:var(--aqua)" id="kubi-desc-b">KubiCasa</strong> für die professionelle Grundrissvermessung aller Objekte. Präzise, maßstabsgetreue 2D-Grundrisse und 3D-Modelle — in Minuten per Smartphone erfasst, notartauglich exportiert.</p>
+        <div class="kubi-title" id="kubi-title">📐 RaumScanner Pro</div>
+        <p class="kubi-sub" id="kubi-sub">Einfach ein Foto vom Raum aufnehmen — <strong style="color:var(--aqua)">Claude KI</strong> analysiert das Bild sofort und erstellt eine detaillierte Raumanalyse mit Maßen, Grundriss-Beschreibung und Nutzungsempfehlungen.</p>
         <div class="kubi-steps">
-          <div class="kubi-step"><span class="kubi-step-num">📱</span><div class="kubi-step-txt">Smartphone-Scan vor Ort</div></div>
-          <div class="kubi-step"><span class="kubi-step-num">🗂️</span><div class="kubi-step-txt" id="kubi-s1" id="kubi-s2">2D-Grundriss in Minuten</div></div>
-          <div class="kubi-step"><span class="kubi-step-num">🧱</span><div class="kubi-step-txt" id="kubi-s3" >3D-Modell & Raumhöhen</div></div>
-          <div class="kubi-step"><span class="kubi-step-num">📄</span><div class="kubi-step-txt" id="kubi-s4" >PDF-Export für Notar</div></div>
+          <div class="kubi-step"><span class="kubi-step-num">📱</span><div class="kubi-step-txt" id="kubi-s1">Foto aufnehmen</div></div>
+          <div class="kubi-step"><span class="kubi-step-num">☁️</span><div class="kubi-step-txt" id="kubi-s2">Claude analysiert</div></div>
+          <div class="kubi-step"><span class="kubi-step-num">📐</span><div class="kubi-step-txt" id="kubi-s3">Maße & Grundriss</div></div>
+          <div class="kubi-step"><span class="kubi-step-num">✅</span><div class="kubi-step-txt" id="kubi-s4">Sofort fertig</div></div>
         </div>
-        <a href="https://kubicasa.com" target="_blank" class="kubi-cta" id="kubi-link">🔗 Mehr über KubiCasa</a>
+        <!-- Buttons -->
+        <div style="display:flex;gap:.8rem;margin-top:1.4rem;flex-wrap:wrap">
+          <button class="rs-btn-camera" onclick="rsOpenCamera()" id="rs-btn-cam">
+            📷 Foto aufnehmen
+          </button>
+          <button class="rs-btn-file" onclick="rsOpenFile()">
+            🗂 Aus Datei laden
+          </button>
+        </div>
+        <!-- Hidden inputs -->
+        <input type="file" id="rs-camera-input" accept="image/*" capture="environment" style="display:none" onchange="rsHandleImage(this)">
+        <input type="file" id="rs-file-input" accept="image/*" style="display:none" onchange="rsHandleImage(this)">
+        <!-- Preview + Result -->
+        <div id="rs-preview-wrap" style="display:none;margin-top:1.4rem">
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-start">
+            <img id="rs-preview-img" style="width:140px;height:105px;object-fit:cover;border-radius:.6rem;border:1px solid rgba(0,180,216,.3)" alt="Vorschau">
+            <div style="flex:1;min-width:180px">
+              <div id="rs-status" style="font-size:.8rem;color:var(--aqua);margin-bottom:.5rem">🔍 Claude analysiert das Bild…</div>
+              <div id="rs-result" style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;display:none"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div style="text-align:center">
-        <div class="kubi-logo">KubiCasa</div>
-        <div style="font-size:.68rem;color:rgba(255,255,255,.4);letter-spacing:.1em;margin-top:.3rem;text-transform:uppercase">Partner</div>
-        <div style="margin-top:1rem;background:rgba(6,214,160,.1);border:1px solid rgba(6,214,160,.22);border-radius:.6rem;padding:.55rem .9rem;font-size:.72rem;color:var(--mint);text-align:center" id="kubi-badge">✓ Alle Objekte vermessen</div>
+      <div style="text-align:center;flex-shrink:0">
+        <div class="kubi-logo" style="font-size:1.6rem">RaumScanner<br><span style="font-size:1rem;opacity:.7">Pro</span></div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.4);letter-spacing:.1em;margin-top:.3rem;text-transform:uppercase">KI-Vermessung</div>
+        <div style="margin-top:1rem;background:rgba(6,214,160,.1);border:1px solid rgba(6,214,160,.22);border-radius:.6rem;padding:.55rem .9rem;font-size:.72rem;color:var(--mint);text-align:center">✓ Claude Vision KI</div>
       </div>
     </div>
   </div>
@@ -1212,6 +1246,71 @@ function closeModalDirect() {
   document.body.style.overflow = '';
 }
 
+// ── RAUMSCANNER PRO ──
+function rsOpenCamera() {
+  document.getElementById('rs-camera-input').click();
+}
+function rsOpenFile() {
+  document.getElementById('rs-file-input').click();
+}
+async function rsHandleImage(input) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  const wrap = document.getElementById('rs-preview-wrap');
+  const imgEl = document.getElementById('rs-preview-img');
+  const statusEl = document.getElementById('rs-status');
+  const resultEl = document.getElementById('rs-result');
+  // Reset
+  resultEl.style.display = 'none';
+  resultEl.textContent = '';
+  statusEl.style.display = 'block';
+  statusEl.innerHTML = '<span class="rs-spinner"></span> Claude analysiert das Bild…';
+  wrap.style.display = 'block';
+  // Preview
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const b64 = e.target.result.split(',')[1];
+    const mime = file.type || 'image/jpeg';
+    imgEl.src = e.target.result;
+    // Claude Vision call
+    try {
+      const res = await fetch('https://blue-lagune-proxy.friesh.workers.dev', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 600,
+          messages: [{
+            role: 'user',
+            content: [
+              {
+                type: 'image',
+                source: { type: 'base64', media_type: mime, data: b64 }
+              },
+              {
+                type: 'text',
+                text: 'Bitte analysiere dieses Raumfoto und erstelle eine kompakte Grundriss-Beschreibung: Raumtyp, geschätzte Maße (Länge × Breite), Besonderheiten (Fenster, Türen, Nischen), Raumhöhe falls erkennbar, und kurze Nutzungsempfehlung. Antworte auf Deutsch, präzise und strukturiert, maximal 200 Wörter.'
+              }
+            ]
+          }]
+        })
+      });
+      const data = await res.json();
+      const text = data.content && data.content[0] && data.content[0].text
+        ? data.content[0].text
+        : 'Analyse nicht verfügbar.';
+      statusEl.style.display = 'none';
+      resultEl.innerHTML = text.replace(/\n/g, '<br>');
+      resultEl.style.display = 'block';
+    } catch(err) {
+      statusEl.innerHTML = '⚠️ Fehler bei der Analyse. Bitte erneut versuchen.';
+    }
+  };
+  reader.readAsDataURL(file);
+  // Reset input so same file can be reselected
+  input.value = '';
+}
+
 // ── VOICE AGENT ──
 const synth = window.speechSynthesis;
 let _vc = {de:null, it:null, en:null};
@@ -1497,12 +1596,12 @@ de: {
   'fp2-d':'Das klassische Burano-Haus. EG Wohnen & Küche, OG Schlafzimmer mit Kanalblick. Seitlicher Balkon möglich.',
   'fp3-t':'Dreistöckig · 100–120+ m²',
   'fp3-desc':'Premium-Objekte ab 120 m². Drei Etagen, Dachterrasse, optionaler kleiner Garten. 360°-Lagunenpanorama.',
-  'kubi-title':'📐 KubiCasa Integration',
-  'kubi-s1':'Smartphone-Scan vor Ort',
-  'kubi-s2':'2D-Grundriss in Minuten',
-  'kubi-s3':'3D-Modell & Raumhöhen',
-  'kubi-s4':'PDF-Export für Notar',
-  'kubi-cta-txt':'Mehr über KubiCasa',
+  'kubi-title':'📐 RaumScanner Pro',
+  'kubi-s1':'Foto mit Smartphone',
+  'kubi-s2':'Claude analysiert',
+  'kubi-s3':'Maße & Grundriss',
+  'kubi-s4':'Ergebnis fertig',
+  
   'sec-lage':'Mikrolagen',
   'h2-lage2':'Kanal · Lagune · Garten',
   'lage1-h':'Kanallage — Fondamenta',
@@ -1572,7 +1671,7 @@ de: {
   'va-status-txt':'● Bereit',
   'va-welcome':'Willkommen! Klicken Sie 🔊 bei einem Objekt oder wählen Sie unten.',
   'va-intro-btn':'🎙️ Burano Einführung',
-  'modal-kubi-txt':'Grundriss via <strong>KubiCasa</strong> verfügbar',
+  'modal-kubi-txt':'Grundriss via <strong>RaumScanner Pro</strong> verfügbar',
   'calc-results-header':['⅛-Kaufpreis','Jahresgebühr','Ihr Anteil/Jahr','Netto-Rendite','Rentabilitätsindex'],
 },
 it: {
@@ -1627,12 +1726,12 @@ it: {
   'fp2-d':'La tipica casa di Burano. Piano terra soggiorno e cucina, piano superiore camera con vista canale. Possibile balcone laterale.',
   'fp3-t':'Tre piani · 100–120+ m²',
   'fp3-desc':'Immobili premium da 120 m². Tre piani, terrazza sul tetto, giardino opzionale. Panorama a 360° sulla laguna.',
-  'kubi-title':'📐 Integrazione KubiCasa',
-  'kubi-s1':'Scansione con smartphone in loco',
-  'kubi-s2':'Planimetria 2D in pochi minuti',
-  'kubi-s3':'Modello 3D e altezze dei locali',
-  'kubi-s4':'Export PDF per il notaio',
-  'kubi-cta-txt':'Scopri KubiCasa',
+  'kubi-title':'📐 RaumScanner Pro',
+  'kubi-s1':'Foto con smartphone',
+  'kubi-s2':'Claude analizza',
+  'kubi-s3':'Misure & Planimetria',
+  'kubi-s4':'Risultato pronto',
+  
   'sec-lage':'Microposizioni',
   'h2-lage2':'Canale · Laguna · Giardino',
   'lage1-h':'Sul canale — Fondamenta',
@@ -1702,7 +1801,7 @@ it: {
   'va-status-txt':'● Pronto',
   'va-welcome':'Benvenuti! Cliccate 🔊 su un immobile o scegliete qui sotto.',
   'va-intro-btn':'🎙️ Introduzione a Burano',
-  'modal-kubi-txt':'Planimetria disponibile via <strong>KubiCasa</strong>',
+  'modal-kubi-txt':'Planimetria via <strong>RaumScanner Pro</strong>',
 },
   en: {
   'nav-insel':'The Island',
@@ -1755,12 +1854,12 @@ it: {
   'fp2-d':'The classic Burano house. Ground floor living and kitchen, upper floor bedroom with canal view.',
   'fp3-t':'Three storeys \u00b7 100\u2013120+ m\u00b2',
   'fp3-desc':'Premium properties from 120 m\u00b2. Three floors, roof terrace, optional garden. 360\u00b0 lagoon panorama.',
-  'kubi-title':'\ud83d\udccf KubiCasa Integration',
-  'kubi-s1':'Smartphone scan on site',
-  'kubi-s2':'2D floor plan in minutes',
-  'kubi-s3':'3D model and room heights',
-  'kubi-s4':'PDF export for notary',
-  'kubi-cta-txt':'Discover KubiCasa',
+  'kubi-title':'📐 RaumScanner Pro',
+  'kubi-s1':'Smartphone photo',
+  'kubi-s2':'Claude analyses',
+  'kubi-s3':'Dimensions & plan',
+  'kubi-s4':'Result ready',
+  
   'sec-lage':'Micro-locations',
   'h2-lage2':'Canal \u00b7 Lagoon \u00b7 Garden',
   'lage1-h':'Canal-side \u2014 Fondamenta',
@@ -1830,7 +1929,7 @@ it: {
   'va-status-txt':'\u25cf Ready',
   'va-welcome':'Welcome! Click \ud83d\udd0a on a property or choose below.',
   'va-intro-btn':'\ud83c\udfa4 Burano Introduction',
-  'modal-kubi-txt':'Floor plan available via <strong>KubiCasa</strong>',
+  'modal-kubi-txt':'Floor plan via <strong>RaumScanner Pro</strong>',
 }
 };
 
