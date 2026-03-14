@@ -122,6 +122,11 @@ canvas#fpCanvas{width:100%;border-radius:10px;display:block}
   .room-card,.editor,.floorplan-wrap,.setup-card{border:1px solid #ccc;background:#fff}
   canvas#fpCanvas{background:#f5f0e8}
 }
+
+/* TOAST */
+.rs-toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#1a2a3a;border:1px solid rgba(0,180,216,.4);color:var(--text);border-radius:10px;padding:10px 18px;font-size:.82rem;z-index:9999;max-width:90vw;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:opacity .3s;pointer-events:none}
+.rs-toast.error{border-color:rgba(230,57,70,.6);background:#2a1a1a}
+.rs-toast.ok{border-color:rgba(6,214,160,.5);background:#0a2a1a}
 </style>
 </head>
 <body>
@@ -187,7 +192,7 @@ canvas#fpCanvas{width:100%;border-radius:10px;display:block}
         <div class="ph-text-area">
           <div class="ph-status" id="quickPhStatus"><span class="spinner"></span> <span id="analyzingQTxt">Claude analysiert…</span></div>
           <div class="ph-result-txt" id="quickPhResultTxt"></div>
-          <button class="btn-tts" id="btnQuickTTS" onclick="readQuickResult()" id="readAloudQTxt">🔊 Vorlesen</button>
+          <button class="btn-tts" id="btnQuickTTS" onclick="readQuickResult()">🔊 Vorlesen</button>
         </div>
       </div>
     </div>
@@ -195,7 +200,7 @@ canvas#fpCanvas{width:100%;border-radius:10px;display:block}
     <!-- ROOMS -->
     <div class="section-hdr">
       <div class="section-title" id="roomsTitleTxt">Räume</div>
-      <button class="btn-mic" onclick="micAddRoom()" id="mic-room" id="roomByVoiceTxt">🎙 Raum per Sprache</button>
+      <button class="btn-mic" onclick="micAddRoom()" id="mic-room">🎙 Raum per Sprache</button>
     </div>
     <div class="voice-status" id="roomVS"><span class="v-dot"></span><span id="roomVSTxt">Sprechen Sie Raumname und Maße…</span></div>
     <div class="rooms-grid" id="roomsGrid"></div>
@@ -222,10 +227,10 @@ canvas#fpCanvas{width:100%;border-radius:10px;display:block}
         </div>
       </div>
       <div class="ed-btn-row">
-        <button class="btn-mic" onclick="micMeasure()" id="mic-meas" id="speakMeasureTxt">🎙 Maße sprechen</button>
+        <button class="btn-mic" onclick="micMeasure()" id="mic-meas">🎙 Maße sprechen</button>
         <button class="btn-cam" onclick="camCapture()" id="takePhotoTxt">📷 Foto aufnehmen</button>
         <button class="btn-file" onclick="fileCapture()" id="fromFileTxt">🗂 Aus Datei</button>
-        <button class="btn-tts show" id="btnTTS" onclick="readResult()" style="margin-left:auto" id="readAloudTxt">🔊 Vorlesen</button>
+        <button class="btn-tts show" id="btnTTS" onclick="readResult()" style="margin-left:auto">🔊 Vorlesen</button>
       </div>
       <!-- Back camera only, no selfie -->
       <input type="file" id="camInput" accept="image/*" capture="environment" onchange="handlePhoto(this)">
@@ -266,6 +271,48 @@ canvas#fpCanvas{width:100%;border-radius:10px;display:block}
 <script>
 const PROXY = 'https://blue-lagune-proxy.friesh.workers.dev';
 let state = { propName:'', propAddr:'', lat:null, lng:null, rooms:[], activeRoom:-1, lang:'de' };
+
+/* ── TOAST ── */
+let _toastTimer = null;
+function toast(msg, type='', ms=3500) {
+  let el = document.getElementById('rsToast');
+  if(!el){ el=document.createElement('div'); el.id='rsToast'; el.className='rs-toast'; document.body.appendChild(el); }
+  el.textContent = msg;
+  el.className = 'rs-toast '+(type||'');
+  el.style.opacity='1';
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(()=>{ el.style.opacity='0'; }, ms);
+}
+
+/* ── PROXY TEST ── */
+async function testProxy() {
+  try {
+    const r = await fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:5,messages:[{role:'user',content:'hi'}]})});
+    const d = await r.json();
+    if(d.content) { /* ok */ } else if(d.error) toast('⚠️ API: '+d.error.message,'error',5000);
+  } catch(e) { toast('⚠️ Proxy nicht erreichbar. Bitte VPN prüfen.','error',6000); }
+}
+
+/* ── BROWSER SPEECH CHECK ── */
+const SpeechRec = window.SpeechRecognition||window.webkitSpeechRecognition;
+const isSpeechSupported = !!SpeechRec;
+// iOS Chrome doesn't support speech — detect it
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isChrome = /chrome/i.test(navigator.userAgent)&&!/edg/i.test(navigator.userAgent);
+const micOK = isSpeechSupported && !(isIOS && isChrome);
+
+function checkMic() {
+  if(!micOK) {
+    const msg = isIOS
+      ? '🎙 Mikrofon nur in Safari verfügbar (nicht Chrome/iOS)'
+      : '🎙 Spracherkennung nicht unterstützt. Bitte Chrome Desktop verwenden.';
+    toast(msg,'error',6000);
+    return false;
+  }
+  return true;
+}
+
 
 /* ══════════════════════════════════════
    i18n — all strings per language
@@ -484,6 +531,16 @@ function saveSetup() {
   document.getElementById('mainPanel').style.display = 'block';
   document.getElementById('exportBar').style.display = 'flex';
   renderRooms();
+  // Test proxy and mic on first use
+  testProxy();
+  if(!micOK) {
+    setTimeout(()=>{
+      const msg = isIOS
+        ? '🎙 Mikrofon: Bitte Safari verwenden (iOS Chrome unterstützt kein Mikrofon)'
+        : '🎙 Spracherkennung: Bitte Chrome oder Edge Desktop verwenden';
+      toast(msg,'error',7000);
+    }, 800);
+  }
 }
 function getGPS() {
   document.getElementById('gpsStatus').textContent = T('gpsSearching');
@@ -665,6 +722,7 @@ async function handleQuickPhoto(inp) {
       document.getElementById('btnQuickTTS').classList.add('show');
     } catch(err) {
       document.getElementById('quickPhStatus').innerHTML = T('analysisError');
+      toast('⚠️ KI-Analyse fehlgeschlagen: '+err.message,'error',6000);
     }
   };
   reader.readAsDataURL(file);
@@ -743,6 +801,7 @@ async function handlePhoto(inp) {
       window.scrollTo(0, scrollY);
     } catch(err) {
       document.getElementById('phStatus').innerHTML = T('analysisError');
+      toast('⚠️ KI-Analyse fehlgeschlagen: '+err.message,'error',6000);
     }
   };
   reader.readAsDataURL(file);
@@ -763,35 +822,45 @@ function readResult() {
 /* ══════════════════════════════════════
    SPEECH RECOGNITION
 ══════════════════════════════════════ */
-const SpeechRec = window.SpeechRecognition||window.webkitSpeechRecognition;
 let activeSR = null;
-function stopSR(){ if(activeSR){activeSR.stop();activeSR=null;} }
+function stopSR(){ if(activeSR){try{activeSR.stop();}catch(e){} activeSR=null;} }
 
 function startSR(onResult, statusEl, statusTxtEl, btnEl, hint) {
   stopSR();
-  if(!SpeechRec){ alert(T('srNotSupported')); return; }
+  if(!checkMic()) return;
   const sr = new SpeechRec();
   sr.lang = T('srLang'); sr.continuous=false; sr.interimResults=false;
   activeSR = sr;
-  document.getElementById(statusEl).classList.add('show');
-  document.getElementById(statusTxtEl).textContent = hint||T('speaking');
+  const seEl = document.getElementById(statusEl);
+  const stEl = document.getElementById(statusTxtEl);
   const btn = document.getElementById(btnEl);
+  if(seEl) seEl.classList.add('show');
+  if(stEl) stEl.textContent = hint||T('speaking');
   if(btn) btn.classList.add('listening');
   sr.onresult = e => {
     const txt = e.results[0][0].transcript;
-    document.getElementById(statusTxtEl).textContent = '✓ '+txt;
+    if(stEl) stEl.textContent = '✓ '+txt;
     onResult(txt);
   };
-  sr.onerror = ()=>{
-    document.getElementById(statusEl).classList.remove('show');
+  sr.onerror = ev => {
+    if(seEl) seEl.classList.remove('show');
     if(btn) btn.classList.remove('listening');
-  };
-  sr.onend = ()=>{
-    if(btn) btn.classList.remove('listening');
-    setTimeout(()=>document.getElementById(statusEl).classList.remove('show'), 2500);
+    const errMap = {
+      'not-allowed':'Mikrofon-Zugriff verweigert. Bitte Berechtigung erlauben.',
+      'no-speech':'Kein Ton erkannt. Bitte erneut versuchen.',
+      'network':'Netzwerkfehler bei der Spracherkennung.',
+      'audio-capture':'Mikrofon nicht gefunden.'
+    };
+    toast('🎙 '+(errMap[ev.error]||'Sprachfehler: '+ev.error),'error',5000);
     activeSR = null;
   };
-  sr.start();
+  sr.onend = () => {
+    if(btn) btn.classList.remove('listening');
+    setTimeout(()=>{ if(seEl) seEl.classList.remove('show'); }, 2500);
+    activeSR = null;
+  };
+  try { sr.start(); }
+  catch(e){ toast('🎙 Mikrofon-Start fehlgeschlagen: '+e.message,'error',5000); }
 }
 
 function micSetup(field) {
